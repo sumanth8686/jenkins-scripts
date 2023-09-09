@@ -1,0 +1,41 @@
+pipeline{
+    agent any
+  parameters{
+      string(name: "Tool", defaultValue: 'Mr.Jenkins', description: 'Who should I say hello to?' )
+      text(name: 'DESC', defaultValue: '', description: 'enter some info')
+      booleanParam(name: 'sonar', defaultValue: '', description: 'Toggle this value')
+      choice(name: 'STAGE', choices: "Build\nTest\nDeploy\n", description: 'pick something')
+      password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a Password')
+      file(name: "FILE", description: "choose a file")
+  }
+  stages{
+      stage("Tool"){
+        steps{
+            echo "$Tool or ${params.Tool} both are same"
+        }
+      }
+      stage("choice"){
+          steps{
+              echo "My choice is $stage"
+          }
+      }
+      stage("sonar"){
+          steps{
+              script{
+                  if(params.sonar){
+                    echo "sonar steps will execute"
+            }
+          }
+        }
+      }
+      stage("test"){
+          steps{
+             script{
+                if(params.STAGE=="Test"){
+                    echo "this is test stage"
+                }
+             }
+          }
+      }
+  }
+ }
